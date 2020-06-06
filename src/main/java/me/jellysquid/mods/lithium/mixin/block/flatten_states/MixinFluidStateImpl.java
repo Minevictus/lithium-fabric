@@ -1,11 +1,10 @@
 package me.jellysquid.mods.lithium.mixin.block.flatten_states;
 
-import com.google.common.collect.ImmutableMap;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.FluidStateImpl;
-import net.minecraft.state.property.Property;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -18,38 +17,53 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * Since these are constant for any given fluid state, we can cache them nearby for improved performance and eliminate
  * the overhead.
  */
-@Mixin(FluidStateImpl.class)
-public abstract class MixinFluidStateImpl implements FluidState {
+@Mixin(FluidState.class)
+public abstract class MixinFluidStateImpl {
+    @Shadow
+    public abstract Fluid getFluid();
+
     private float height;
     private int level;
     private boolean isEmpty;
     private boolean isStill;
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void init(Fluid fluid, ImmutableMap<Property<?>, Comparable<?>> properties, CallbackInfo ci) {
-        this.isEmpty = fluid.isEmpty();
+    private void init(CallbackInfo ci) {
+        this.isEmpty = getFluid().isEmpty();
 
-        this.level = fluid.getLevel(this);
-        this.height = fluid.getHeight(this);
-        this.isStill = fluid.isStill(this);
+        this.level = getFluid().getLevel((FluidState) (Object) this);
+        this.height = getFluid().getHeight((FluidState) (Object) this);
+        this.isStill = getFluid().isStill((FluidState) (Object) this);
     }
 
-    @Override
+    /**
+     * @author Lithium
+     */
+    @Overwrite
     public boolean isStill() {
         return this.isStill;
     }
 
-    @Override
+    /**
+     * @author Lithium
+     */
+    @Overwrite
     public boolean isEmpty() {
         return this.isEmpty;
     }
 
-    @Override
+    /**
+     * @author Lithium
+     */
+    @Overwrite
     public float getHeight() {
         return this.height;
     }
 
-    @Override
+    /**
+     * @author Lithium
+     */
+    @Overwrite
     public int getLevel() {
         return this.level;
     }

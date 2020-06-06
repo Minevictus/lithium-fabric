@@ -17,3 +17,7 @@ accessible method net/minecraft/server/world/ChunkHolder updateFuture (Ljava/uti
 
 accessible class net/minecraft/server/world/ThreadedAnvilChunkStorage$EntityTracker
 accessible field net/minecraft/server/world/ThreadedAnvilChunkStorage$EntityTracker entity Lnet/minecraft/entity/Entity;
+
+accessible field net/minecraft/world/chunk/PalettedContainer palette Lnet/minecraft/world/chunk/Palette;
+
+accessible field net/minecraft/util/collection/PackedIntegerArray elementBits I

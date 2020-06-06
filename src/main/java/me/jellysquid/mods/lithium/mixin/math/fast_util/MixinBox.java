@@ -10,36 +10,36 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(Box.class)
 public class MixinBox {
 
+    @Shadow
+    @Final
+    public double minX;
+
+    @Shadow
+    @Final
+    public double minY;
+
+    @Shadow
+    @Final
+    public double minZ;
+
+    @Shadow
+    @Final
+    public double maxX;
+
+    @Shadow
+    @Final
+    public double maxY;
+
+    @Shadow
+    @Final
+    public double maxZ;
+
     static {
         assert Direction.Axis.X.ordinal() == 0;
         assert Direction.Axis.Y.ordinal() == 1;
         assert Direction.Axis.Z.ordinal() == 2;
         assert Direction.Axis.values().length == 3;
     }
-
-    @Shadow
-    @Final
-    public double x1;
-
-    @Shadow
-    @Final
-    public double y1;
-
-    @Shadow
-    @Final
-    public double y2;
-
-    @Shadow
-    @Final
-    public double z1;
-
-    @Shadow
-    @Final
-    public double x2;
-
-    @Shadow
-    @Final
-    public double z2;
 
     /**
      * @reason Simplify the code to better help the JVM optimize it
@@ -49,11 +49,11 @@ public class MixinBox {
     public double getMin(Direction.Axis axis) {
         switch (axis.ordinal()) {
             case 0: //X
-                return this.x1;
+                return this.minX;
             case 1: //Y
-                return this.y1;
+                return this.minY;
             case 2: //Z
-                return this.z1;
+                return this.minZ;
         }
 
         throw new IllegalArgumentException();
@@ -67,11 +67,11 @@ public class MixinBox {
     public double getMax(Direction.Axis axis) {
         switch (axis.ordinal()) {
             case 0: //X
-                return this.x2;
+                return this.maxX;
             case 1: //Y
-                return this.y2;
+                return this.maxY;
             case 2: //Z
-                return this.z2;
+                return this.maxZ;
         }
 
         throw new IllegalArgumentException();

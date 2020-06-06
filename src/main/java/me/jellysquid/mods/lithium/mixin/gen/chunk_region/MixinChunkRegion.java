@@ -21,12 +21,11 @@ import java.util.List;
 public abstract class MixinChunkRegion {
     @Shadow
     @Final
-    private ChunkPos field_23788;
+    private int width;
 
     @Shadow
     @Final
-    private int width;
-
+    private ChunkPos lowerCorner;
     // Array view of the chunks in the region to avoid an unnecessary de-reference
     private Chunk[] chunksArr;
 
@@ -35,8 +34,8 @@ public abstract class MixinChunkRegion {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void init(ServerWorld world, List<Chunk> chunks, CallbackInfo ci) {
-        this.minChunkX = this.field_23788.x;
-        this.minChunkZ = this.field_23788.z;
+        this.minChunkX = this.lowerCorner.x;
+        this.minChunkZ = this.lowerCorner.z;
 
         this.chunksArr = chunks.toArray(new Chunk[0]);
     }

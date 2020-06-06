@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 @Mixin(PointOfInterestStorage.class)
 public abstract class MixinPointOfInterestStorage extends SerializingRegionBasedStorage<PointOfInterestSet> {
     public MixinPointOfInterestStorage(File file, DataFixer fixer, boolean flag) {
-        super(file, PointOfInterestSet::serialize, PointOfInterestSet::new, PointOfInterestSet::new, fixer, DataFixTypes.POI_CHUNK, flag);
+        super(file, PointOfInterestSet::method_28364, PointOfInterestSet::new, fixer, DataFixTypes.POI_CHUNK, flag);
     }
 
     /**
