@@ -3,9 +3,6 @@ package me.jellysquid.mods.lithium.common.world.chunk;
 import it.unimi.dsi.fastutil.HashCommon;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
-
-import java.util.function.Predicate;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.nbt.CompoundTag;
@@ -17,6 +14,7 @@ import net.minecraft.world.chunk.PaletteResizeListener;
 
 import java.util.Arrays;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import static it.unimi.dsi.fastutil.Hash.FAST_LOAD_FACTOR;
 
@@ -99,9 +97,11 @@ public class LithiumHashPalette<T> implements Palette<T> {
     @Override
     public boolean accepts(Predicate<T> predicate) {
         for (T t : this.entries) {
-            if (!predicate.test(t)) return false;
+            if (t != null && predicate.test(t)) {
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     public boolean tableContainsKey(T t) {
